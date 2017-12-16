@@ -9,6 +9,7 @@ flags.DEFINE_string("model_dir", "/tmp/cp", "Directory for Tensorboard"
                     "summaries and videos.")
 flags.DEFINE_string("env", "Billiards", "Name of environment. One of"
                     " ['Billiards.].")
+flags.DEFINE_string("rnn_type", "lstm", "Choice of RNN")
 flags.DEFINE_float('learning_rate', 0.0001, 'Initial learning rate.')
 flags.DEFINE_integer('training_steps', 2000, 'Number of steps to train model.')
 flags.DEFINE_integer('time_steps', 5, 'Number of time steps to unroll model')
@@ -43,7 +44,7 @@ def create_model():
         FLAGS.image_dim, 1], dtype=tf.float32, name="X")
     
     # Representation RNN.
-    representations = representation(inputs, is_train=True)
+    representations = representation(inputs, is_train=True, rnn_type=FLAGS.rnn_type)
     
     # Model containing the modules.
     model = {'inputs': inputs, 
